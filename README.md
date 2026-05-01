@@ -9,7 +9,7 @@
 [![Models](https://img.shields.io/badge/Browse-Models-0284c7?style=for-the-badge)](https://apidot.ai/models)
 
 [![GitHub](https://img.shields.io/badge/GitHub-APIDotAI-111111?style=flat-square&logo=github)](https://github.com/APIDotAI)
-[![X](https://img.shields.io/badge/X-%40ApiDot63748-111111?style=flat-square&logo=x)](https://x.com/ApiDot63748)
+[![X](https://img.shields.io/badge/X-%40APIDotAI-111111?style=flat-square&logo=x)](https://x.com/APIDotAI)
 [![Discord](https://img.shields.io/badge/Discord-Community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/bu5hVztmHu)
 
 </div>
