@@ -45,11 +45,19 @@ Store `data.task_id` immediately. Video generation is asynchronous, so your back
 
 ## Optional webhook
 
-Add `callback_url` only when you have a real public webhook receiver.
+Add `callback_url` only when you have a real public webhook receiver. The full submit payload looks like this:
 
 ```json
 {
-  "callback_url": "https://example.com/api/apidot/webhook"
+  "model": "seedance-2",
+  "callback_url": "https://example.com/api/apidot/webhook",
+  "input": {
+    "prompt": "A slow dolly-in on a ceramic cup of espresso, morning light, cinematic realism",
+    "duration": 5,
+    "aspect_ratio": "16:9",
+    "resolution": "720p",
+    "generate_audio": true
+  }
 }
 ```
 

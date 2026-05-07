@@ -44,11 +44,18 @@ Store `data.task_id` immediately. You will need it for polling, webhook reconcil
 
 ## Optional webhook
 
-Add `callback_url` only when you have a real public webhook receiver.
+Add `callback_url` only when you have a real public webhook receiver. The full submit payload looks like this:
 
 ```json
 {
-  "callback_url": "https://example.com/api/apidot/webhook"
+  "model": "gpt-image-2",
+  "callback_url": "https://example.com/api/apidot/webhook",
+  "input": {
+    "prompt": "A premium product photo of a silver espresso machine on a clean white studio background, realistic lighting, high detail",
+    "quality": "low",
+    "size": "1:1",
+    "resolution": "1K"
+  }
 }
 ```
 

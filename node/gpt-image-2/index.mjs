@@ -23,10 +23,33 @@ const sleep = (ms) => new Promise((resolveSleep) => setTimeout(resolveSleep, ms)
 
 async function requestJson(url, options) {
   const response = await fetch(url, options);
-  const body = await response.json().catch(() => ({}));
+  const responseText = await response.text();
+  let body = {};
 
-  if (!response.ok || (body.code && body.code !== 0 && body.code !== 200)) {
-    throw new Error(JSON.stringify(body, null, 2));
+  if (responseText) {
+    try {
+      body = JSON.parse(responseText);
+    } catch {
+      body = { raw: responseText };
+    }
+  }
+
+  const apiCode = Number(body?.code);
+  const hasApiError = Number.isFinite(apiCode) && apiCode !== 0 && apiCode !== 200;
+
+  if (!response.ok || hasApiError) {
+    throw new Error(
+      `APIDot request failed: ${JSON.stringify(
+        {
+          http_status: response.status,
+          http_status_text: response.statusText,
+          api_code: body?.code,
+          body,
+        },
+        null,
+        2,
+      )}`,
+    );
   }
 
   return body;

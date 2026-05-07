@@ -4,19 +4,15 @@
 
 **Production-oriented quickstarts for building with APIDot APIs.**
 
-[![Website](https://img.shields.io/badge/Website-apidot.ai-0f172a?style=for-the-badge)](https://apidot.ai)
-[![Docs](https://img.shields.io/badge/API-Docs-16a34a?style=for-the-badge)](https://apidot.ai/docs)
-[![Models](https://img.shields.io/badge/Browse-Models-0284c7?style=for-the-badge)](https://apidot.ai/models)
+[Website](https://apidot.ai) · [Docs](https://apidot.ai/docs) · [Models](https://apidot.ai/models)
 
-[![GitHub](https://img.shields.io/badge/GitHub-APIDotAI-111111?style=flat-square&logo=github)](https://github.com/APIDotAI)
-[![X](https://img.shields.io/badge/X-%40APIDotAI-111111?style=flat-square&logo=x)](https://x.com/APIDotAI)
-[![Discord](https://img.shields.io/badge/Discord-Community-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/bu5hVztmHu)
+[GitHub](https://github.com/APIDotAI) · [X](https://x.com/APIDotAI) · [Discord](https://discord.gg/bu5hVztmHu)
 
 </div>
 
 ---
 
-APIDot gives developers one API key for production-ready image, video, chat, and music models. This repository contains small examples that show the real async generation flow: submit a task, store the `task_id`, poll status or receive a webhook, then persist the generated files.
+APIDot gives developers one API key for production-ready image, video, chat, and music models. This repository contains small examples that show the real async generation flow: submit a task, store the `task_id`, poll status or receive a webhook, then retrieve generated file URLs.
 
 ## Start here
 
@@ -42,6 +38,8 @@ cp .env.example .env
 APIDOT_API_KEY=YOUR_APIDOT_API_KEY
 # Optional: uncomment only when you have a real public webhook receiver.
 # APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
+# Optional for local webhook demos. Use a database lookup in production.
+APIDOT_KNOWN_TASK_IDS=task-unified-example
 ```
 
 ## Core API flow
@@ -68,9 +66,10 @@ Authorization: Bearer <APIDOT_API_KEY>
 
 - Keep API keys out of browser code and public repositories.
 - Treat webhooks as idempotent. Duplicate deliveries should not create duplicate user-visible results.
+- Only process webhook `task_id` values that your system submitted and recorded.
 - Persist task ids before starting polling or waiting for callbacks.
 - Retry transient failures with backoff, but do not retry invalid payloads unchanged.
-- Failed generations do not consume credits on APIDot.
+- APIDot is designed so failed generation tasks do not consume credits; check current billing behavior in the dashboard and docs before production use.
 
 ## Links
 
@@ -78,3 +77,4 @@ Authorization: Bearer <APIDOT_API_KEY>
 - Docs: https://apidot.ai/docs
 - Models: https://apidot.ai/models
 - Support: support@apidot.ai
+- License: MIT
