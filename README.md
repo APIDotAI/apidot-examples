@@ -26,9 +26,15 @@ APIDot gives developers one API key for production-ready image, video, chat, and
 | [webhooks/express-webhook](webhooks/express-webhook) | Receive APIDot callbacks with a minimal Express server. |
 | [webhooks/nextjs-route-handler.md](webhooks/nextjs-route-handler.md) | Receive APIDot callbacks in a Next.js App Router route handler. |
 
+## Requirements
+
+- APIDot API key.
+- Node.js 18 or newer for Node.js and webhook examples.
+- `curl` for cURL examples.
+
 ## Environment
 
-Create an API key in the APIDot dashboard, then keep it on the server side.
+Create an API key in the [APIDot dashboard](https://apidot.ai/dashboard/api-key), then keep it on the server side.
 
 ```bash
 cp .env.example .env
@@ -38,8 +44,9 @@ cp .env.example .env
 APIDOT_API_KEY=YOUR_APIDOT_API_KEY
 # Optional: uncomment only when you have a real public webhook receiver.
 # APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
-# Optional for local allowlist demos. If unset, webhook demos accept any task id.
-# Use a database lookup in production.
+# Optional for local webhook demos only. Do not use this in production.
+# APIDOT_ALLOW_UNLISTED_TASK_IDS=true
+# Optional local allowlist. Use a database lookup in production.
 # APIDOT_KNOWN_TASK_IDS=task-unified-example
 ```
 
@@ -69,8 +76,9 @@ Authorization: Bearer <APIDOT_API_KEY>
 - Treat webhooks as idempotent. Duplicate deliveries should not create duplicate user-visible results.
 - Only process webhook `task_id` values that your system submitted and recorded.
 - Persist task ids before starting polling or waiting for callbacks.
+- Make webhook idempotency durable. Do not rely only on an in-memory `Map` in production.
 - Retry transient failures with backoff, but do not retry invalid payloads unchanged.
-- APIDot is designed so failed generation tasks do not consume credits; check current billing behavior in the dashboard and docs before production use.
+- Check the dashboard and current docs for credit behavior, especially for failed or cancelled tasks.
 
 ## Links
 

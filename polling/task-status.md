@@ -11,8 +11,11 @@ Authorization: Bearer <APIDOT_API_KEY>
 
 ## cURL
 
+Replace `task-unified-example` with the real `data.task_id` from your submit response.
+The `--fail-with-body` flag makes API errors visible; remove it if your local `curl` does not support it.
+
 ```bash
-curl --request GET \
+curl --fail-with-body --request GET \
   --url https://api.apidot.ai/api/generate/status/task-unified-example \
   --header 'Authorization: Bearer YOUR_APIDOT_API_KEY'
 ```

@@ -13,10 +13,7 @@ const knownTaskIds = new Set(
     .map((taskId) => taskId.trim())
     .filter(Boolean),
 );
-const reconcileTimeoutMs = Math.max(
-  1000,
-  Number(process.env.APIDOT_RECONCILE_TIMEOUT_MS || 5000) || 5000,
-);
+const allowUnlistedTaskIds = process.env.APIDOT_ALLOW_UNLISTED_TASK_IDS === "true";
 
 export async function POST(request: Request) {
   const event = await request.json();
@@ -40,25 +37,34 @@ export async function POST(request: Request) {
   const status = event?.data?.status || event?.status || "unknown";
   const files = event?.data?.files || event?.files || [];
 
-  // Store the update in your database or enqueue it here.
+  // Persist the callback or enqueue a durable job before returning 2xx.
   // Keep this handler idempotent so duplicate callbacks are safe.
-  console.log({ taskId, status, files, accepted: true });
-
-  void reconcileTaskStatus(taskId, { timeoutMs: reconcileTimeoutMs }).then(
-    (reconciled) => {
-      console.log({ taskId, reconciled });
-    },
-  );
+  await enqueueWebhookEvent({ taskId, status, files, event });
 
   return NextResponse.json({ ok: true });
 }
 
 async function isKnownTaskId(taskId: string) {
-  // If APIDOT_KNOWN_TASK_IDS is unset, this demo accepts any task id so
-  // real webhook tests are not dropped. Use a database lookup in production.
-  return knownTaskIds.size === 0 || knownTaskIds.has(taskId);
+  // Use APIDOT_ALLOW_UNLISTED_TASK_IDS=true only for local demos.
+  // In production, replace this with a database lookup.
+  return knownTaskIds.has(taskId) || allowUnlistedTaskIds;
 }
 
+async function enqueueWebhookEvent(payload: {
+  taskId: string;
+  status: string;
+  files: unknown;
+  event: unknown;
+}) {
+  // Replace this with a database insert or durable queue publish.
+  // Do not rely on promises started after the response returns in serverless.
+  console.log({ ...payload, accepted: true });
+}
+```
+
+Run status reconciliation from a queue worker after the callback is stored or dequeued. Do not rely on a promise started after the route handler returns; serverless runtimes may stop execution.
+
+```ts
 function createTimeoutSignal(timeoutMs: number) {
   if (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function") {
     return AbortSignal.timeout(timeoutMs);
@@ -69,7 +75,7 @@ function createTimeoutSignal(timeoutMs: number) {
   return controller.signal;
 }
 
-async function reconcileTaskStatus(
+export async function reconcileTaskStatusForWorker(
   taskId: string,
   { timeoutMs = 5000 }: { timeoutMs?: number } = {},
 ) {
@@ -109,6 +115,8 @@ async function reconcileTaskStatus(
 }
 ```
 
+For local webhook testing, set `APIDOT_ALLOW_UNLISTED_TASK_IDS=true` or set `APIDOT_KNOWN_TASK_IDS` to the task ids you submitted. In production, use a database lookup and keep `APIDOT_ALLOW_UNLISTED_TASK_IDS` unset.
+
 Then submit a task with a complete payload that includes `callback_url`:
 
 ```json
@@ -130,4 +138,6 @@ Then submit a task with a complete payload that includes `callback_url`:
 - Do not expose APIDot API keys in client components.
 - Only process callback `task_id` values that your system submitted and recorded.
 - Persist callback payloads or normalized task state before returning success.
-- Keep the response path short: persist or enqueue the callback, return 2xx quickly, and reconcile with `GET /api/generate/status/{task_id}` using a timeout before irreversible business actions.
+- Keep the response path short: persist or enqueue the callback, return 2xx quickly, and reconcile with `GET /api/generate/status/{task_id}` from a queue worker using a timeout before irreversible business actions.
+- Do not rely on post-response promises in serverless route handlers.
+- Make webhook idempotency durable with `task_id` plus a status version, update time, or business unique key.

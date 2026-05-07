@@ -16,11 +16,12 @@ const submittedTaskIds = new Set(
     .map((taskId) => taskId.trim())
     .filter(Boolean),
 );
+const allowUnlistedTaskIds = process.env.APIDOT_ALLOW_UNLISTED_TASK_IDS === "true";
 
 async function isKnownTaskId(taskId) {
-  // If APIDOT_KNOWN_TASK_IDS is unset, this demo accepts any task id so
-  // real webhook tests are not dropped. Use a database lookup in production.
-  return submittedTaskIds.size === 0 || submittedTaskIds.has(taskId);
+  // Use APIDOT_ALLOW_UNLISTED_TASK_IDS=true only for local demos.
+  // In production, replace this with a database lookup.
+  return submittedTaskIds.has(taskId) || allowUnlistedTaskIds;
 }
 
 function createTimeoutSignal(timeoutMs) {
@@ -88,6 +89,8 @@ app.post("/api/apidot/webhook", async (req, res) => {
   const status = event?.data?.status || event?.status || "unknown";
   const files = event?.data?.files || event?.files || [];
 
+  // Demo-only duplicate suppression. Production should use durable idempotency
+  // based on task_id plus a status version, update time, or business unique key.
   if (lastStatusByTaskId.get(taskId) === status) {
     return res.json({ ok: true, duplicate: true });
   }

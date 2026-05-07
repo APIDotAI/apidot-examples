@@ -4,6 +4,8 @@ This example submits a GPT Image 2 job and polls until the task reaches a termin
 
 ## Run
 
+No install step is required for this example; it uses Node.js native `fetch` only.
+
 ```bash
 cd node/gpt-image-2
 cp ../../.env.example ../../.env

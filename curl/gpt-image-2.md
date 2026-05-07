@@ -11,9 +11,10 @@ This example submits a GPT Image 2 text-to-image job through APIDot's unified as
 
 Replace `YOUR_APIDOT_API_KEY` with your server-side key before running the command.
 These examples use Bash line continuation. On Windows, run them in Git Bash/WSL or adapt them to `curl.exe` PowerShell syntax.
+The `--fail-with-body` flag makes API errors visible; remove it if your local `curl` does not support it.
 
 ```bash
-curl --request POST \
+curl --fail-with-body --request POST \
   --url https://api.apidot.ai/api/generate/submit \
   --header 'Authorization: Bearer YOUR_APIDOT_API_KEY' \
   --header 'Content-Type: application/json' \
@@ -62,8 +63,10 @@ Add `callback_url` only when you have a real public webhook receiver. The full s
 
 ## Poll the result
 
+Replace `task-unified-example` with the real `data.task_id` from your submit response.
+
 ```bash
-curl --request GET \
+curl --fail-with-body --request GET \
   --url https://api.apidot.ai/api/generate/status/task-unified-example \
   --header 'Authorization: Bearer YOUR_APIDOT_API_KEY'
 ```

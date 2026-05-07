@@ -4,6 +4,8 @@ This example submits a Seedance 2 video job and polls until the task reaches a t
 
 ## Run
 
+No install step is required for this example; it uses Node.js native `fetch` only.
+
 ```bash
 cd node/seedance-2
 cp ../../.env.example ../../.env
