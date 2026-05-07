@@ -2,7 +2,7 @@
 
 # APIDot Examples
 
-**Quickstarts and minimal integrations for building with APIDot APIs.**
+**Production-oriented quickstarts for building with APIDot APIs.**
 
 [![Website](https://img.shields.io/badge/Website-apidot.ai-0f172a?style=for-the-badge)](https://apidot.ai)
 [![Docs](https://img.shields.io/badge/API-Docs-16a34a?style=for-the-badge)](https://apidot.ai/docs)
@@ -16,31 +16,64 @@
 
 ---
 
-## What this repository is for
-
-This repository collects starter examples for developers integrating APIDot into real products.
-
-The goal is to keep examples small, readable, and easy to adapt for production workflows.
-
-## Example categories
-
-- Chat integrations
-- Image generation workflows
-- Video generation workflows
-- Music generation workflows
-- Webhook callback handling
+APIDot gives developers one API key for production-ready image, video, chat, and music models. This repository contains small examples that show the real async generation flow: submit a task, store the `task_id`, poll status or receive a webhook, then persist the generated files.
 
 ## Start here
 
-- **Website**: https://apidot.ai
-- **Docs**: https://apidot.ai/docs
-- **Models**: https://apidot.ai/models
+| Example | What it covers |
+| --- | --- |
+| [curl/gpt-image-2.md](curl/gpt-image-2.md) | Submit a GPT Image 2 text-to-image job with cURL. |
+| [curl/seedance-2.md](curl/seedance-2.md) | Submit a Seedance 2 video job with cURL. |
+| [node/gpt-image-2](node/gpt-image-2) | Run a GPT Image 2 job from Node.js with native `fetch`. |
+| [node/seedance-2](node/seedance-2) | Run a Seedance 2 job from Node.js with native `fetch`. |
+| [polling/task-status.md](polling/task-status.md) | Poll `/api/generate/status/{task_id}` until a task finishes. |
+| [webhooks/express-webhook](webhooks/express-webhook) | Receive APIDot callbacks with a minimal Express server. |
+| [webhooks/nextjs-route-handler.md](webhooks/nextjs-route-handler.md) | Receive APIDot callbacks in a Next.js App Router route handler. |
 
-## Suggested structure
+## Environment
 
-```text
-chat/
-image/
-video/
-music/
-webhooks/
+Create an API key in the APIDot dashboard, then keep it on the server side.
+
+```bash
+cp .env.example .env
+```
+
+```bash
+APIDOT_API_KEY=YOUR_APIDOT_API_KEY
+APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
+```
+
+## Core API flow
+
+1. Submit a generation request:
+
+```http
+POST https://api.apidot.ai/api/generate/submit
+Authorization: Bearer <APIDOT_API_KEY>
+Content-Type: application/json
+```
+
+2. Store the returned `data.task_id` immediately.
+3. Retrieve the result with polling:
+
+```http
+GET https://api.apidot.ai/api/generate/status/{task_id}
+Authorization: Bearer <APIDOT_API_KEY>
+```
+
+4. Or pass `callback_url` during submit and receive a webhook when the task reaches a terminal state.
+
+## Production notes
+
+- Keep API keys out of browser code and public repositories.
+- Treat webhooks as idempotent. Duplicate deliveries should not create duplicate user-visible results.
+- Persist task ids before starting polling or waiting for callbacks.
+- Retry transient failures with backoff, but do not retry invalid payloads unchanged.
+- Failed generations do not consume credits on APIDot.
+
+## Links
+
+- Website: https://apidot.ai
+- Docs: https://apidot.ai/docs
+- Models: https://apidot.ai/models
+- Support: support@apidot.ai
