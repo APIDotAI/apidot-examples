@@ -4,9 +4,9 @@
 
 **Production-oriented quickstarts for building with APIDot APIs.**
 
-[Website](https://apidot.ai) · [Docs](https://apidot.ai/docs) · [Models](https://apidot.ai/models)
+[Website](https://apidot.ai) | [Docs](https://apidot.ai/docs) | [Models](https://apidot.ai/models)
 
-[GitHub](https://github.com/APIDotAI) · [X](https://x.com/APIDotAI) · [Discord](https://discord.gg/bu5hVztmHu)
+[GitHub](https://github.com/APIDotAI) | [X](https://x.com/APIDotAI) | [Discord](https://discord.gg/bu5hVztmHu)
 
 </div>
 
@@ -38,8 +38,9 @@ cp .env.example .env
 APIDOT_API_KEY=YOUR_APIDOT_API_KEY
 # Optional: uncomment only when you have a real public webhook receiver.
 # APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
-# Optional for local webhook demos. Use a database lookup in production.
-APIDOT_KNOWN_TASK_IDS=task-unified-example
+# Optional for local allowlist demos. If unset, webhook demos accept any task id.
+# Use a database lookup in production.
+# APIDOT_KNOWN_TASK_IDS=task-unified-example
 ```
 
 ## Core API flow

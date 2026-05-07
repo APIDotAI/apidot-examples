@@ -10,6 +10,7 @@ This example submits a Seedance 2 video job through APIDot's unified async gener
 ## Submit a video job
 
 Replace `YOUR_APIDOT_API_KEY` with your server-side key before running the command.
+These examples use Bash line continuation. On Windows, run them in Git Bash/WSL or adapt them to `curl.exe` PowerShell syntax.
 
 ```bash
 curl --request POST \

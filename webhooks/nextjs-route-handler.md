@@ -13,6 +13,10 @@ const knownTaskIds = new Set(
     .map((taskId) => taskId.trim())
     .filter(Boolean),
 );
+const reconcileTimeoutMs = Math.max(
+  1000,
+  Number(process.env.APIDOT_RECONCILE_TIMEOUT_MS || 5000) || 5000,
+);
 
 export async function POST(request: Request) {
   const event = await request.json();
@@ -36,22 +40,39 @@ export async function POST(request: Request) {
   const status = event?.data?.status || event?.status || "unknown";
   const files = event?.data?.files || event?.files || [];
 
-  const reconciled = await reconcileTaskStatus(taskId);
-
-  // Store the update in your database here.
+  // Store the update in your database or enqueue it here.
   // Keep this handler idempotent so duplicate callbacks are safe.
-  console.log({ taskId, status, files, reconciled });
+  console.log({ taskId, status, files, accepted: true });
+
+  void reconcileTaskStatus(taskId, { timeoutMs: reconcileTimeoutMs }).then(
+    (reconciled) => {
+      console.log({ taskId, reconciled });
+    },
+  );
 
   return NextResponse.json({ ok: true });
 }
 
 async function isKnownTaskId(taskId: string) {
-  // Replace this Set with a database lookup in production. Only process
-  // callbacks for task ids your system submitted and stored.
-  return knownTaskIds.has(taskId);
+  // If APIDOT_KNOWN_TASK_IDS is unset, this demo accepts any task id so
+  // real webhook tests are not dropped. Use a database lookup in production.
+  return knownTaskIds.size === 0 || knownTaskIds.has(taskId);
 }
 
-async function reconcileTaskStatus(taskId: string) {
+function createTimeoutSignal(timeoutMs: number) {
+  if (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function") {
+    return AbortSignal.timeout(timeoutMs);
+  }
+
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), timeoutMs);
+  return controller.signal;
+}
+
+async function reconcileTaskStatus(
+  taskId: string,
+  { timeoutMs = 5000 }: { timeoutMs?: number } = {},
+) {
   const apiKey = process.env.APIDOT_API_KEY;
   const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
 
@@ -59,20 +80,32 @@ async function reconcileTaskStatus(taskId: string) {
     return { task_id: taskId, reconciled: false, reason: "APIDOT_API_KEY is not set" };
   }
 
-  const response = await fetch(`${baseUrl}/api/generate/status/${taskId}`, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  try {
+    const response = await fetch(`${baseUrl}/api/generate/status/${taskId}`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+      signal: createTimeoutSignal(timeoutMs),
+    });
 
-  const body = await response.json().catch(() => ({}));
+    const body = await response.json().catch(() => ({}));
 
-  return {
-    task_id: taskId,
-    reconciled: response.ok,
-    http_status: response.status,
-    status: body?.data?.status,
-  };
+    return {
+      task_id: taskId,
+      reconciled: response.ok,
+      http_status: response.status,
+      status: body?.data?.status,
+    };
+  } catch (error) {
+    const name = error instanceof Error ? error.name : "Error";
+    const message = error instanceof Error ? error.message : "Unknown status request error";
+
+    return {
+      task_id: taskId,
+      reconciled: false,
+      reason: name === "AbortError" || name === "TimeoutError" ? "status request timed out" : message,
+    };
+  }
 }
 ```
 
@@ -97,4 +130,4 @@ Then submit a task with a complete payload that includes `callback_url`:
 - Do not expose APIDot API keys in client components.
 - Only process callback `task_id` values that your system submitted and recorded.
 - Persist callback payloads or normalized task state before returning success.
-- Reconcile webhook updates with `GET /api/generate/status/{task_id}` if your downstream workflow requires stronger consistency.
+- Keep the response path short: persist or enqueue the callback, return 2xx quickly, and reconcile with `GET /api/generate/status/{task_id}` using a timeout before irreversible business actions.

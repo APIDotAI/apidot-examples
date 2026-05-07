@@ -2,6 +2,10 @@ import express from "express";
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
+const reconcileTimeoutMs = Math.max(
+  1000,
+  Number(process.env.APIDOT_RECONCILE_TIMEOUT_MS || 5000) || 5000,
+);
 
 app.use(express.json({ limit: "2mb" }));
 
@@ -14,12 +18,22 @@ const submittedTaskIds = new Set(
 );
 
 async function isKnownTaskId(taskId) {
-  // Replace this Set with a database lookup in production. Only process
-  // callbacks for task ids your system submitted and stored.
-  return submittedTaskIds.has(taskId);
+  // If APIDOT_KNOWN_TASK_IDS is unset, this demo accepts any task id so
+  // real webhook tests are not dropped. Use a database lookup in production.
+  return submittedTaskIds.size === 0 || submittedTaskIds.has(taskId);
 }
 
-async function reconcileTaskStatus(taskId) {
+function createTimeoutSignal(timeoutMs) {
+  if (typeof AbortSignal !== "undefined" && typeof AbortSignal.timeout === "function") {
+    return AbortSignal.timeout(timeoutMs);
+  }
+
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), timeoutMs);
+  return controller.signal;
+}
+
+async function reconcileTaskStatus(taskId, { timeoutMs = 5000 } = {}) {
   const apiKey = process.env.APIDOT_API_KEY;
   const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
 
@@ -27,20 +41,32 @@ async function reconcileTaskStatus(taskId) {
     return { task_id: taskId, reconciled: false, reason: "APIDOT_API_KEY is not set" };
   }
 
-  const response = await fetch(`${baseUrl}/api/generate/status/${taskId}`, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  try {
+    const response = await fetch(`${baseUrl}/api/generate/status/${taskId}`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+      signal: createTimeoutSignal(timeoutMs),
+    });
 
-  const body = await response.json().catch(() => ({}));
+    const body = await response.json().catch(() => ({}));
 
-  return {
-    task_id: taskId,
-    reconciled: response.ok,
-    http_status: response.status,
-    status: body?.data?.status,
-  };
+    return {
+      task_id: taskId,
+      reconciled: response.ok,
+      http_status: response.status,
+      status: body?.data?.status,
+    };
+  } catch (error) {
+    const name = error?.name || "Error";
+    const message = error?.message || "Unknown status request error";
+
+    return {
+      task_id: taskId,
+      reconciled: false,
+      reason: name === "AbortError" || name === "TimeoutError" ? "status request timed out" : message,
+    };
+  }
 }
 
 app.get("/health", (_req, res) => {
@@ -67,7 +93,6 @@ app.post("/api/apidot/webhook", async (req, res) => {
   }
 
   lastStatusByTaskId.set(taskId, status);
-  const reconciled = await reconcileTaskStatus(taskId);
 
   console.log(
     JSON.stringify(
@@ -75,12 +100,18 @@ app.post("/api/apidot/webhook", async (req, res) => {
         task_id: taskId,
         status,
         files,
-        reconciled,
+        accepted: true,
       },
       null,
       2,
     ),
   );
+
+  // Keep the response path short. In production, persist the event first,
+  // then reconcile in a background worker before irreversible business actions.
+  void reconcileTaskStatus(taskId, { timeoutMs: reconcileTimeoutMs }).then((reconciled) => {
+    console.log(JSON.stringify({ task_id: taskId, reconciled }, null, 2));
+  });
 
   return res.json({ ok: true });
 });

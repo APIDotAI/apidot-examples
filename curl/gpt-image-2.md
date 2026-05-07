@@ -10,6 +10,7 @@ This example submits a GPT Image 2 text-to-image job through APIDot's unified as
 ## Submit a text-to-image job
 
 Replace `YOUR_APIDOT_API_KEY` with your server-side key before running the command.
+These examples use Bash line continuation. On Windows, run them in Git Bash/WSL or adapt them to `curl.exe` PowerShell syntax.
 
 ```bash
 curl --request POST \
