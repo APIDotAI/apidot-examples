@@ -40,7 +40,8 @@ cp .env.example .env
 
 ```bash
 APIDOT_API_KEY=YOUR_APIDOT_API_KEY
-APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
+# Optional: uncomment only when you have a real public webhook receiver.
+# APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
 ```
 
 ## Core API flow

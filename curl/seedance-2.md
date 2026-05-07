@@ -18,7 +18,6 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "model": "seedance-2",
-    "callback_url": "https://example.com/api/apidot/webhook",
     "input": {
       "prompt": "A slow dolly-in on a ceramic cup of espresso, morning light, cinematic realism",
       "duration": 5,
@@ -43,6 +42,16 @@ curl --request POST \
 ```
 
 Store `data.task_id` immediately. Video generation is asynchronous, so your backend should poll status or wait for the webhook callback.
+
+## Optional webhook
+
+Add `callback_url` only when you have a real public webhook receiver.
+
+```json
+{
+  "callback_url": "https://example.com/api/apidot/webhook"
+}
+```
 
 ## Poll the result
 

@@ -18,7 +18,6 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "model": "gpt-image-2",
-    "callback_url": "https://example.com/api/apidot/webhook",
     "input": {
       "prompt": "A premium product photo of a silver espresso machine on a clean white studio background, realistic lighting, high detail",
       "quality": "low",
@@ -42,6 +41,16 @@ curl --request POST \
 ```
 
 Store `data.task_id` immediately. You will need it for polling, webhook reconciliation, retries, and customer-facing status pages.
+
+## Optional webhook
+
+Add `callback_url` only when you have a real public webhook receiver.
+
+```json
+{
+  "callback_url": "https://example.com/api/apidot/webhook"
+}
+```
 
 ## Poll the result
 

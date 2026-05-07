@@ -58,7 +58,7 @@ loadEnv();
 
 const apiKey = process.env.APIDOT_API_KEY;
 const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
-const callbackUrl = process.env.APIDOT_CALLBACK_URL || "https://example.com/api/apidot/webhook";
+const callbackUrl = process.env.APIDOT_CALLBACK_URL;
 
 if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
   throw new Error("Set APIDOT_API_KEY in your environment or repo-root .env file.");
@@ -66,7 +66,7 @@ if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
 
 const payload = {
   model: "gpt-image-2",
-  callback_url: callbackUrl,
+  ...(callbackUrl ? { callback_url: callbackUrl } : {}),
   input: {
     prompt: "A premium product photo of a silver espresso machine on a clean white studio background, realistic lighting, high detail",
     quality: "low",

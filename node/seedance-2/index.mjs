@@ -58,7 +58,7 @@ loadEnv();
 
 const apiKey = process.env.APIDOT_API_KEY;
 const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
-const callbackUrl = process.env.APIDOT_CALLBACK_URL || "https://example.com/api/apidot/webhook";
+const callbackUrl = process.env.APIDOT_CALLBACK_URL;
 
 if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
   throw new Error("Set APIDOT_API_KEY in your environment or repo-root .env file.");
@@ -66,7 +66,7 @@ if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
 
 const payload = {
   model: "seedance-2",
-  callback_url: callbackUrl,
+  ...(callbackUrl ? { callback_url: callbackUrl } : {}),
   input: {
     prompt: "A slow dolly-in on a ceramic cup of espresso, morning light, cinematic realism",
     duration: 5,

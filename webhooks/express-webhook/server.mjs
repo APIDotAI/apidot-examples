@@ -5,7 +5,7 @@ const port = Number(process.env.PORT || 3000);
 
 app.use(express.json({ limit: "2mb" }));
 
-const seenTaskIds = new Set();
+const lastStatusByTaskId = new Map();
 
 app.get("/health", (_req, res) => {
   res.json({ ok: true });
@@ -19,14 +19,14 @@ app.post("/api/apidot/webhook", async (req, res) => {
     return res.status(400).json({ ok: false, error: "Missing task_id" });
   }
 
-  if (seenTaskIds.has(taskId)) {
+  const status = event?.data?.status || event?.status || "unknown";
+  const files = event?.data?.files || event?.files || [];
+
+  if (lastStatusByTaskId.get(taskId) === status) {
     return res.json({ ok: true, duplicate: true });
   }
 
-  seenTaskIds.add(taskId);
-
-  const status = event?.data?.status || event?.status || "unknown";
-  const files = event?.data?.files || event?.files || [];
+  lastStatusByTaskId.set(taskId, status);
 
   console.log(
     JSON.stringify(
