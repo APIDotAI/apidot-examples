@@ -87,3 +87,7 @@ Authorization: Bearer <APIDOT_API_KEY>
 - Models: https://apidot.ai/models
 - Support: support@apidot.ai
 - License: MIT
+
+## Contributing
+
+Issues and PRs are welcome.
