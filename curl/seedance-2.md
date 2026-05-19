@@ -9,14 +9,14 @@ This example submits a Seedance 2 video job through APIDot's unified async gener
 
 ## Submit a video job
 
-Replace `YOUR_APIDOT_API_KEY` with your server-side key before running the command.
+Replace `YOUR_API_KEY_HERE` with your server-side key before running the command.
 These examples use Bash line continuation. On Windows, run them in Git Bash/WSL or adapt them to `curl.exe` PowerShell syntax.
 The `--fail-with-body` flag makes API errors visible; remove it if your local `curl` does not support it.
 
 ```bash
 curl --fail-with-body --request POST \
   --url https://api.apidot.ai/api/generate/submit \
-  --header 'Authorization: Bearer YOUR_APIDOT_API_KEY' \
+  --header 'Authorization: Bearer YOUR_API_KEY_HERE' \
   --header 'Content-Type: application/json' \
   --data '{
     "model": "seedance-2",
@@ -70,7 +70,7 @@ Replace `task-unified-example` with the real `data.task_id` from your submit res
 ```bash
 curl --fail-with-body --request GET \
   --url https://api.apidot.ai/api/generate/status/task-unified-example \
-  --header 'Authorization: Bearer YOUR_APIDOT_API_KEY'
+  --header 'Authorization: Bearer YOUR_API_KEY_HERE'
 ```
 
 Terminal statuses include `finished` and `failed`. Successful video jobs return generated file URLs in the status response.

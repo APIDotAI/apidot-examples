@@ -17,7 +17,7 @@ The `--fail-with-body` flag makes API errors visible; remove it if your local `c
 ```bash
 curl --fail-with-body --request GET \
   --url https://api.apidot.ai/api/generate/status/task-unified-example \
-  --header 'Authorization: Bearer YOUR_APIDOT_API_KEY'
+  --header 'Authorization: Bearer YOUR_API_KEY_HERE'
 ```
 
 ## Node.js polling helper

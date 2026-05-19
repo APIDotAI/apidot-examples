@@ -38,7 +38,7 @@ async function reconcileTaskStatus(taskId, { timeoutMs = 5000 } = {}) {
   const apiKey = process.env.APIDOT_API_KEY;
   const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
 
-  if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
+  if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
     return { task_id: taskId, reconciled: false, reason: "APIDOT_API_KEY is not set" };
   }
 

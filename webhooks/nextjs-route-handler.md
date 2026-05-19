@@ -79,17 +79,17 @@ export async function reconcileTaskStatusForWorker(
   taskId: string,
   { timeoutMs = 5000 }: { timeoutMs?: number } = {},
 ) {
-  const apiKey = process.env.APIDOT_API_KEY;
+  const bearerToken = process.env.APIDOT_API_KEY;
   const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
 
-  if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
+  if (!bearerToken || bearerToken === "YOUR_API_KEY_HERE") {
     return { task_id: taskId, reconciled: false, reason: "APIDOT_API_KEY is not set" };
   }
 
   try {
     const response = await fetch(`${baseUrl}/api/generate/status/${taskId}`, {
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${bearerToken}`,
       },
       signal: createTimeoutSignal(timeoutMs),
     });

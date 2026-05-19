@@ -18,7 +18,10 @@ APIDot gives developers one API key for production-ready image, video, chat, and
 
 | Example | What it covers |
 | --- | --- |
-| [curl/gpt-image-2.md](curl/gpt-image-2.md) | Submit a GPT Image 2 text-to-image job with cURL. |
+| [curl/image/gpt-image-2.md](curl/image/gpt-image-2.md) | Submit a GPT Image 2 text-to-image job with cURL. |
+| [curl/image/nano-banana-2.md](curl/image/nano-banana-2.md) | Submit a Nano Banana 2 image job with cURL. |
+| [curl/image/nano-banana-pro.md](curl/image/nano-banana-pro.md) | Submit a Nano Banana Pro image job with cURL. |
+| [curl/image/seedream-4-5.md](curl/image/seedream-4-5.md) | Submit a Seedream 4.5 image job with cURL. |
 | [curl/seedance-2.md](curl/seedance-2.md) | Submit a Seedance 2 video job with cURL. |
 | [node/gpt-image-2](node/gpt-image-2) | Run a GPT Image 2 job from Node.js with native `fetch`. |
 | [node/seedance-2](node/seedance-2) | Run a Seedance 2 job from Node.js with native `fetch`. |
@@ -41,7 +44,7 @@ cp .env.example .env
 ```
 
 ```bash
-APIDOT_API_KEY=YOUR_APIDOT_API_KEY
+APIDOT_API_KEY=YOUR_API_KEY_HERE
 # Optional: uncomment only when you have a real public webhook receiver.
 # APIDOT_CALLBACK_URL=https://example.com/api/apidot/webhook
 # Optional for local webhook demos only. Do not use this in production.

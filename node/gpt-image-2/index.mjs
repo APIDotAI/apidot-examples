@@ -83,7 +83,7 @@ const apiKey = process.env.APIDOT_API_KEY;
 const baseUrl = process.env.APIDOT_BASE_URL || "https://api.apidot.ai";
 const callbackUrl = process.env.APIDOT_CALLBACK_URL;
 
-if (!apiKey || apiKey === "YOUR_APIDOT_API_KEY") {
+if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
   throw new Error("Set APIDOT_API_KEY in your environment or repo-root .env file.");
 }
 
