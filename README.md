@@ -12,7 +12,7 @@
 
 ---
 
-APIDot gives developers one API key for production-ready image, video, chat, and music models. This repository contains small examples that show the real async generation flow: submit a task, store the `task_id`, poll status or receive a webhook, then retrieve generated file URLs.
+APIDot gives developers one API key for production-ready image, video, chat, music, and 3D models. This repository contains small examples for server-side API calls, including async media generation and direct chat requests.
 
 ## Start here
 
@@ -31,6 +31,9 @@ APIDot gives developers one API key for production-ready image, video, chat, and
 | [curl/3d/meshy-6-3d.md](curl/3d/meshy-6-3d.md) | Submit a Meshy 6 3D job with cURL. |
 | [curl/3d/tripo-h31-3d.md](curl/3d/tripo-h31-3d.md) | Submit a Tripo H3.1 3D job with cURL. |
 | [curl/3d/tripo-p1-3d.md](curl/3d/tripo-p1-3d.md) | Submit a Tripo P1 3D job with cURL. |
+| [curl/chat/claude-4-6.md](curl/chat/claude-4-6.md) | Send a Claude 4.6 Messages request with cURL. |
+| [curl/chat/gemini-3.md](curl/chat/gemini-3.md) | Send a Gemini 3 native request with cURL. |
+| [curl/chat/claude-4-5.md](curl/chat/claude-4-5.md) | Send a Claude 4.5 Messages request with cURL. |
 | [node/gpt-image-2](node/gpt-image-2) | Run a GPT Image 2 job from Node.js with native `fetch`. |
 | [node/seedance-2](node/seedance-2) | Run a Seedance 2 job from Node.js with native `fetch`. |
 | [polling/task-status.md](polling/task-status.md) | Poll `/api/generate/status/{task_id}` until a task finishes. |
