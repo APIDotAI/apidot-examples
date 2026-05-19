@@ -22,7 +22,10 @@ APIDot gives developers one API key for production-ready image, video, chat, and
 | [curl/image/nano-banana-2.md](curl/image/nano-banana-2.md) | Submit a Nano Banana 2 image job with cURL. |
 | [curl/image/nano-banana-pro.md](curl/image/nano-banana-pro.md) | Submit a Nano Banana Pro image job with cURL. |
 | [curl/image/seedream-4-5.md](curl/image/seedream-4-5.md) | Submit a Seedream 4.5 image job with cURL. |
-| [curl/seedance-2.md](curl/seedance-2.md) | Submit a Seedance 2 video job with cURL. |
+| [curl/video/seedance-2.md](curl/video/seedance-2.md) | Submit a Seedance 2 video job with cURL. |
+| [curl/video/sora-2-official.md](curl/video/sora-2-official.md) | Submit a Sora 2 Official video job with cURL. |
+| [curl/video/happy-horse.md](curl/video/happy-horse.md) | Submit a Happy Horse video job with cURL. |
+| [curl/video/veo-3-1.md](curl/video/veo-3-1.md) | Submit a Veo 3.1 video job with cURL. |
 | [node/gpt-image-2](node/gpt-image-2) | Run a GPT Image 2 job from Node.js with native `fetch`. |
 | [node/seedance-2](node/seedance-2) | Run a Seedance 2 job from Node.js with native `fetch`. |
 | [polling/task-status.md](polling/task-status.md) | Poll `/api/generate/status/{task_id}` until a task finishes. |
