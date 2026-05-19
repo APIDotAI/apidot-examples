@@ -1,11 +1,11 @@
-# GPT Image 2 Node.js Example
+# Generate Music Node.js Example
 
-This example submits a GPT Image 2 task from Node.js and polls until the task reaches a terminal state.
+This example submits a Generate Music task from Node.js and polls until the task reaches a terminal state.
 
 ## What this example shows
 
 - Loading `APIDOT_API_KEY` from the environment or the repo-root `.env` file.
-- Submitting an async image generation request with native `fetch`.
+- Submitting an async music generation request with native `fetch`.
 - Storing the returned `data.task_id`.
 - Polling `/api/generate/status/{task_id}` until the result is `finished` or `failed`.
 
@@ -27,16 +27,12 @@ APIDOT_API_KEY=YOUR_API_KEY_HERE
 
 ## How to run
 
-No install step is required for this example; it uses Node.js native `fetch` only.
-
 ```bash
-cd node/gpt-image-2
+cd node/generate-music
 cp ../../.env.example ../../.env
 # Edit ../../.env and set APIDOT_API_KEY
 npm start
 ```
-
-The script uses native `fetch`, so Node.js 18 or newer is required.
 
 ## Expected response
 
@@ -51,8 +47,8 @@ The script prints each polling attempt and then the final shortened task respons
     "output": {
       "files": [
         {
-          "file_url": "https://example.com/generated-image.webp",
-          "file_type": "image"
+          "file_url": "https://example.com/generated-music.mp3",
+          "file_type": "audio"
         }
       ]
     }
@@ -64,22 +60,22 @@ The script prints each polling attempt and then the final shortened task respons
 
 - Persist `data.task_id` before polling or waiting for callbacks.
 - Keep API keys out of browser code and public repositories.
-- Set `APIDOT_CALLBACK_URL` only after your webhook receiver is reachable from the public internet.
+- Store selected model, request payload, user ID, and task ID together for support and retries.
+- Avoid logging sensitive prompts, user-provided lyrics, API keys, or private callback URLs.
 - Add request timeouts and retry policy in production service code.
-- Avoid logging API keys, private prompts, private media URLs, or callback URLs.
 
 ## Common mistakes
 
 - Running the script with Node.js older than 18.
 - Forgetting to set `APIDOT_API_KEY`.
 - Polling continuously without delay.
-- Assuming every task finishes successfully.
-- Using this server-side example directly in browser code.
+- Losing the returned `task_id` before the music task reaches a terminal state.
+- Mixing simple mode fields with custom mode fields without checking the model docs.
 
 ## Related links
 
-- cURL quickstart: [../../curl/image/gpt-image-2.md](../../curl/image/gpt-image-2.md)
+- cURL quickstart: [../../curl/music/generate-music.md](../../curl/music/generate-music.md)
 - Polling guide: [../../polling/task-status.md](../../polling/task-status.md)
 - Webhook examples: [../../webhooks](../../webhooks)
-- GPT Image 2 docs: https://apidot.ai/docs/gpt-image-2
-- GPT Image 2 landing page: https://apidot.ai/models/gpt-image-2
+- Generate Music docs: https://apidot.ai/docs/generate-music
+- Generate Music landing page: https://apidot.ai/models/generate-music

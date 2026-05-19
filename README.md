@@ -14,7 +14,7 @@
 
 APIDot gives developers one API key for production-ready image, video, chat, music, and 3D models. This repository contains small examples for server-side API calls, including async media generation and direct chat requests.
 
-## Start here
+## cURL model quickstarts
 
 | Example | What it covers |
 | --- | --- |
@@ -34,8 +34,23 @@ APIDot gives developers one API key for production-ready image, video, chat, mus
 | [curl/chat/claude-4-6.md](curl/chat/claude-4-6.md) | Send a Claude 4.6 Messages request with cURL. |
 | [curl/chat/gemini-3.md](curl/chat/gemini-3.md) | Send a Gemini 3 native request with cURL. |
 | [curl/chat/claude-4-5.md](curl/chat/claude-4-5.md) | Send a Claude 4.5 Messages request with cURL. |
+
+## Node runnable examples
+
+These examples show backend integration patterns with native `fetch`. They are not a model-by-model catalog; use the cURL quickstarts above for model-level request shapes.
+
+| Example | What it covers |
+| --- | --- |
 | [node/gpt-image-2](node/gpt-image-2) | Run a GPT Image 2 job from Node.js with native `fetch`. |
 | [node/seedance-2](node/seedance-2) | Run a Seedance 2 job from Node.js with native `fetch`. |
+| [node/gemini-3](node/gemini-3) | Send a direct Gemini 3 chat request from Node.js. |
+| [node/generate-music](node/generate-music) | Run a Generate Music job from Node.js with native `fetch`. |
+| [node/meshy-6-3d](node/meshy-6-3d) | Run a Meshy 6 3D job from Node.js with native `fetch`. |
+
+## Polling and webhooks
+
+| Example | What it covers |
+| --- | --- |
 | [polling/task-status.md](polling/task-status.md) | Poll `/api/generate/status/{task_id}` until a task finishes. |
 | [webhooks/express-webhook](webhooks/express-webhook) | Receive APIDot callbacks with a minimal Express server. |
 | [webhooks/nextjs-route-handler.md](webhooks/nextjs-route-handler.md) | Receive APIDot callbacks in a Next.js App Router route handler. |

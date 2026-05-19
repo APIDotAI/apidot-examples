@@ -1,0 +1,12 @@
+{
+  "name": "apidot-meshy-6-3d-example",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

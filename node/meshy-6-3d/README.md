@@ -1,13 +1,14 @@
-# GPT Image 2 Node.js Example
+# Meshy 6 3D Node.js Example
 
-This example submits a GPT Image 2 task from Node.js and polls until the task reaches a terminal state.
+This example submits a Meshy 6 text-to-3D task from Node.js and polls until the generated model file is ready.
 
 ## What this example shows
 
 - Loading `APIDOT_API_KEY` from the environment or the repo-root `.env` file.
-- Submitting an async image generation request with native `fetch`.
+- Submitting an async 3D generation request with native `fetch`.
 - Storing the returned `data.task_id`.
 - Polling `/api/generate/status/{task_id}` until the result is `finished` or `failed`.
+- Reading the generated model file URL from the final response.
 
 ## Requirements
 
@@ -27,16 +28,12 @@ APIDOT_API_KEY=YOUR_API_KEY_HERE
 
 ## How to run
 
-No install step is required for this example; it uses Node.js native `fetch` only.
-
 ```bash
-cd node/gpt-image-2
+cd node/meshy-6-3d
 cp ../../.env.example ../../.env
 # Edit ../../.env and set APIDOT_API_KEY
 npm start
 ```
-
-The script uses native `fetch`, so Node.js 18 or newer is required.
 
 ## Expected response
 
@@ -51,8 +48,8 @@ The script prints each polling attempt and then the final shortened task respons
     "output": {
       "files": [
         {
-          "file_url": "https://example.com/generated-image.webp",
-          "file_type": "image"
+          "file_url": "https://example.com/generated-model.glb",
+          "file_type": "model"
         }
       ]
     }
@@ -64,22 +61,22 @@ The script prints each polling attempt and then the final shortened task respons
 
 - Persist `data.task_id` before polling or waiting for callbacks.
 - Keep API keys out of browser code and public repositories.
-- Set `APIDOT_CALLBACK_URL` only after your webhook receiver is reachable from the public internet.
-- Add request timeouts and retry policy in production service code.
-- Avoid logging API keys, private prompts, private media URLs, or callback URLs.
+- Store selected model, request payload, user ID, and task ID together for support and retries.
+- Keep reference image URLs reachable long enough when using image-to-3D variants.
+- Avoid logging private media URLs, API keys, or sensitive prompt text.
 
 ## Common mistakes
 
 - Running the script with Node.js older than 18.
 - Forgetting to set `APIDOT_API_KEY`.
 - Polling continuously without delay.
-- Assuming every task finishes successfully.
-- Using this server-side example directly in browser code.
+- Assuming text-to-3D and image-to-3D accept the same input fields.
+- Treating generated asset URLs as permanent without checking your storage policy.
 
 ## Related links
 
-- cURL quickstart: [../../curl/image/gpt-image-2.md](../../curl/image/gpt-image-2.md)
+- cURL quickstart: [../../curl/3d/meshy-6-3d.md](../../curl/3d/meshy-6-3d.md)
 - Polling guide: [../../polling/task-status.md](../../polling/task-status.md)
 - Webhook examples: [../../webhooks](../../webhooks)
-- GPT Image 2 docs: https://apidot.ai/docs/gpt-image-2
-- GPT Image 2 landing page: https://apidot.ai/models/gpt-image-2
+- Meshy 6 3D docs: https://apidot.ai/docs/meshy-6-3d
+- Meshy 6 3D landing page: https://apidot.ai/models/meshy-6-3d
