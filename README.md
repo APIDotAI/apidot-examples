@@ -19,9 +19,14 @@ APIDot gives developers one API key for production-ready image, video, chat, mus
 | Example | What it covers |
 | --- | --- |
 | [curl/image/gpt-image-2.md](curl/image/gpt-image-2.md) | Submit a GPT Image 2 text-to-image job with cURL. |
+| [curl/image/flux-2.md](curl/image/flux-2.md) | Submit a FLUX.2 image job with cURL. |
+| [curl/image/flux-kontext.md](curl/image/flux-kontext.md) | Submit a Flux Kontext image job with cURL. |
 | [curl/image/nano-banana-2.md](curl/image/nano-banana-2.md) | Submit a Nano Banana 2 image job with cURL. |
 | [curl/image/nano-banana-pro.md](curl/image/nano-banana-pro.md) | Submit a Nano Banana Pro image job with cURL. |
 | [curl/image/seedream-4-5.md](curl/image/seedream-4-5.md) | Submit a Seedream 4.5 image job with cURL. |
+| [curl/image/seedream-5-0-lite.md](curl/image/seedream-5-0-lite.md) | Submit a Seedream 5.0 Lite image job with cURL. |
+| [curl/image/wan-2-7-image.md](curl/image/wan-2-7-image.md) | Submit a Wan 2.7 Image job with cURL. |
+| [curl/image/z-image.md](curl/image/z-image.md) | Submit a Z-Image text-to-image job with cURL. |
 | [curl/video/seedance-2.md](curl/video/seedance-2.md) | Submit a Seedance 2 video job with cURL. |
 | [curl/video/sora-2-official.md](curl/video/sora-2-official.md) | Submit a Sora 2 Official video job with cURL. |
 | [curl/video/happy-horse.md](curl/video/happy-horse.md) | Submit a Happy Horse video job with cURL. |
