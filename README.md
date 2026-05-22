@@ -14,6 +14,28 @@
 
 APIDot gives developers one API key for production-ready image, video, chat, music, and 3D models. This repository contains small examples for server-side API calls, including async media generation and direct chat requests.
 
+## Model-specific API repositories
+
+These focused repositories are built as model-level API quickstarts with cURL, Node.js, polling, webhooks, pricing context, and production notes.
+
+### Image models
+
+| Model | Repository | APIDot links |
+| --- | --- | --- |
+| GPT Image 2 | [GPT Image 2 API examples](https://github.com/APIDotAI/gpt-image-2-api) | [Model page](https://apidot.ai/models/gpt-image-2) · [API docs](https://apidot.ai/docs/gpt-image-2) |
+| Nano Banana 2 | [Nano Banana 2 API examples](https://github.com/APIDotAI/nano-banana-2-api) | [Model page](https://apidot.ai/models/nano-banana-2) · [API docs](https://apidot.ai/docs/nano-banana-2) |
+| Nano Banana Pro | [Nano Banana Pro API examples](https://github.com/APIDotAI/nano-banana-pro-api) | [Model page](https://apidot.ai/models/nano-banana-pro) · [API docs](https://apidot.ai/docs/nano-banana-pro) |
+| Seedream 4.5 | [Seedream 4.5 API examples](https://github.com/APIDotAI/seedream-4.5-api) | [Model page](https://apidot.ai/models/seedream-4-5) · [API docs](https://apidot.ai/docs/seedream-4-5) |
+
+### Video models
+
+| Model | Repository | APIDot links |
+| --- | --- | --- |
+| Seedance 2 | [Seedance 2 API examples](https://github.com/APIDotAI/seedance-2-api) | [Model page](https://apidot.ai/models/seedance-2) · [API docs](https://apidot.ai/docs/seedance-2) |
+| Sora 2 Official | [Sora 2 Official API examples](https://github.com/APIDotAI/sora-2-official-api) | [Model page](https://apidot.ai/models/sora-2-official) · [API docs](https://apidot.ai/docs/sora-2-official) |
+| Happy Horse | [Happy Horse API examples](https://github.com/APIDotAI/happy-horse-api) | [Model page](https://apidot.ai/models/happy-horse) · [API docs](https://apidot.ai/docs/happy-horse) |
+| Veo 3.1 | [Veo 3.1 API examples](https://github.com/APIDotAI/veo-3.1-api) | [Model page](https://apidot.ai/models/veo-3-1) · [API docs](https://apidot.ai/docs/veo-3-1) |
+
 ## cURL model quickstarts
 
 | Example | What it covers |
