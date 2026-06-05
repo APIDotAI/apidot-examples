@@ -4,7 +4,9 @@
 
 **Production-oriented quickstarts for building with APIDot APIs.**
 
-[Website](https://apidot.ai) | [Docs](https://apidot.ai/docs) | [Models](https://apidot.ai/models)
+[Get API Key](https://apidot.ai/dashboard/api-key) | [Docs](https://apidot.ai/docs) | [Models](https://apidot.ai/models)
+
+[Core API flow](#core-api-flow) | [Choose an example](#choose-an-example-by-task) | [Webhooks](#polling-and-webhooks)
 
 [GitHub](https://github.com/APIDotAI) | [X](https://x.com/APIDotAI) | [Discord](https://discord.gg/bu5hVztmHu)
 
@@ -12,11 +14,48 @@
 
 ---
 
-APIDot gives developers one API key for production-ready image, video, chat, music, and 3D models. This repository contains small examples for server-side API calls, including async media generation and direct chat requests.
+APIDot gives developers one API key for production-ready image, video, chat, music, and 3D models. This repository is the main starting point for server-side cURL and Node.js calls, including async media generation, polling, webhooks, and direct chat requests.
+
+## Core API flow
+
+Most generation models on APIDot use the same async workflow:
+
+1. Create a server-side API key in the [APIDot dashboard](https://apidot.ai/dashboard/api-key).
+2. Submit a generation request:
+
+```http
+POST https://api.apidot.ai/api/generate/submit
+Authorization: Bearer <APIDOT_API_KEY>
+Content-Type: application/json
+```
+
+3. Store the returned `data.task_id` immediately.
+4. Retrieve the result with polling:
+
+```http
+GET https://api.apidot.ai/api/generate/status/{task_id}
+Authorization: Bearer <APIDOT_API_KEY>
+```
+
+5. Or pass `callback_url` during submit and receive a webhook when the task reaches a terminal state.
+
+Chat examples may use model-native or direct endpoints when noted. Image, video, music, and 3D generation examples use the async task pattern above unless their README says otherwise.
+
+## Choose an example by task
+
+| Task | Start here | What it covers |
+| --- | --- | --- |
+| Image generation and editing | [curl/image/gpt-image-2.md](curl/image/gpt-image-2.md) / [node/gpt-image-2](node/gpt-image-2) | Text-to-image, image editing, quality, size, and reference-image request shapes. |
+| Video generation | [curl/video/seedance-2.md](curl/video/seedance-2.md) / [node/seedance-2](node/seedance-2) | Text-to-video, image-to-video, polling, and async video task handling. |
+| Chat models | [curl/chat/gemini-3.md](curl/chat/gemini-3.md) / [node/gemini-3](node/gemini-3) | Direct chat requests for Gemini and Claude-style model APIs. |
+| Music generation | [curl/music/generate-music.md](curl/music/generate-music.md) / [node/generate-music](node/generate-music) | Prompt-to-song and music generation requests with async task delivery. |
+| 3D generation | [curl/3d/meshy-6-3d.md](curl/3d/meshy-6-3d.md) / [node/meshy-6-3d](node/meshy-6-3d) | Text-to-3D generation and polling for generated 3D assets. |
+| Polling | [polling/task-status.md](polling/task-status.md) | Poll `/api/generate/status/{task_id}` until a task finishes. |
+| Webhooks | [webhooks/express-webhook](webhooks/express-webhook) / [webhooks/nextjs-route-handler.md](webhooks/nextjs-route-handler.md) | Receive APIDot callbacks in Express or Next.js. |
 
 ## Model-specific API repositories
 
-These focused repositories are built as model-level API quickstarts with cURL, Node.js, polling, webhooks, pricing context, and production notes.
+These focused repositories are model-level deep dives with cURL, Node.js, polling, webhooks, pricing context, and production notes. They currently focus on popular image and video APIs; use the task table above for chat, music, and 3D starting points.
 
 ### Image models
 
@@ -105,26 +144,6 @@ APIDOT_API_KEY=YOUR_API_KEY_HERE
 # Optional local allowlist. Use a database lookup in production.
 # APIDOT_KNOWN_TASK_IDS=task-unified-example
 ```
-
-## Core API flow
-
-1. Submit a generation request:
-
-```http
-POST https://api.apidot.ai/api/generate/submit
-Authorization: Bearer <APIDOT_API_KEY>
-Content-Type: application/json
-```
-
-2. Store the returned `data.task_id` immediately.
-3. Retrieve the result with polling:
-
-```http
-GET https://api.apidot.ai/api/generate/status/{task_id}
-Authorization: Bearer <APIDOT_API_KEY>
-```
-
-4. Or pass `callback_url` during submit and receive a webhook when the task reaches a terminal state.
 
 ## Production notes
 
