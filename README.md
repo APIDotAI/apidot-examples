@@ -55,13 +55,14 @@ Chat examples may use model-native or direct endpoints when noted. Image, video,
 
 ## Model-specific API repositories
 
-These focused repositories are model-level deep dives with cURL, Node.js, polling, webhooks, pricing context, and production notes. They currently focus on popular image and video APIs; use the task table above for chat, music, and 3D starting points.
+These focused repositories are model-level deep dives with cURL, Node.js, request shapes, polling, webhooks, and production notes. They currently focus on popular image and video APIs; use the task table above for chat, music, and 3D starting points.
 
 ### Image models
 
 | Model | Repository | APIDot links |
 | --- | --- | --- |
 | GPT Image 2 | [GPT Image 2 API examples](https://github.com/APIDotAI/gpt-image-2-api) | [Model page](https://apidot.ai/models/gpt-image-2) / [API docs](https://apidot.ai/docs/gpt-image-2) |
+| Grok Imagine Image Quality | [Grok Imagine Image Quality API examples](https://github.com/APIDotAI/grok-imagine-image-quality-api) | [Model page](https://apidot.ai/models/grok-imagine-image-quality) / [API docs](https://apidot.ai/docs/grok-imagine-image-quality) |
 | Nano Banana 2 | [Nano Banana 2 API examples](https://github.com/APIDotAI/nano-banana-2-api) | [Model page](https://apidot.ai/models/nano-banana-2) / [API docs](https://apidot.ai/docs/nano-banana-2) |
 | Nano Banana Pro | [Nano Banana Pro API examples](https://github.com/APIDotAI/nano-banana-pro-api) | [Model page](https://apidot.ai/models/nano-banana-pro) / [API docs](https://apidot.ai/docs/nano-banana-pro) |
 | Seedream 4.5 | [Seedream 4.5 API examples](https://github.com/APIDotAI/seedream-4.5-api) | [Model page](https://apidot.ai/models/seedream-4-5) / [API docs](https://apidot.ai/docs/seedream-4-5) |
@@ -70,6 +71,8 @@ These focused repositories are model-level deep dives with cURL, Node.js, pollin
 
 | Model | Repository | APIDot links |
 | --- | --- | --- |
+| Grok Imagine Video 1.5 | [Grok Imagine Video 1.5 API examples](https://github.com/APIDotAI/grok-imagine-video-1.5-api) | [Model page](https://apidot.ai/models/grok-imagine-video-1-5) / [API docs](https://apidot.ai/docs/grok-imagine-video-1-5) |
+| Omni Flash | [Omni Flash API examples](https://github.com/APIDotAI/omni-flash-api) | [Model page](https://apidot.ai/models/omni-flash) / [API docs](https://apidot.ai/docs/omni-flash) |
 | Seedance 2 | [Seedance 2 API examples](https://github.com/APIDotAI/seedance-2-api) | [Model page](https://apidot.ai/models/seedance-2) / [API docs](https://apidot.ai/docs/seedance-2) |
 | Sora 2 Official | [Sora 2 Official API examples](https://github.com/APIDotAI/sora-2-official-api) | [Model page](https://apidot.ai/models/sora-2-official) / [API docs](https://apidot.ai/docs/sora-2-official) |
 | Happy Horse | [Happy Horse API examples](https://github.com/APIDotAI/happy-horse-api) | [Model page](https://apidot.ai/models/happy-horse) / [API docs](https://apidot.ai/docs/happy-horse) |
